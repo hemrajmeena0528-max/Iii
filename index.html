@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Bby ❤️</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #ffdde1 0%, #ee9ca7 100%);
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+        .wish-card {
+            background: rgba(255, 255, 255, 0.90);
+            border-radius: 24px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+            padding: 40px 32px;
+            text-align: center;
+            max-width: 400px;
+            z-index: 2;
+            position: relative;
+            animation: fadein 1.2s;
+        }
+        .wish-card h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #e75480;
+        }
+        .wish-card p {
+            font-size: 1.2rem;
+            color: #432c23;
+            margin-top: 0;
+        }
+        .heart {
+            color: #e75480;
+            font-size: 3rem;
+            margin-top: 16px;
+            animation: heartbeat 1.3s infinite;
+            z-index: 3;
+            position: relative;
+        }
+        @keyframes fadein {
+            0% { opacity: 0; transform: translateY(32px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1);}
+            35% { transform: scale(1.2);}
+            60% { transform: scale(0.9);}
+        }
+        /* Floating heart emoji sparkles */
+        .sparkle {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: float 3.5s linear infinite;
+        }
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(70vh) scale(0.8) rotate(0deg);
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10vh) scale(1.4) rotate(20deg);
+            }
+        }
+        /* Play music button styles */
+        #playBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e75480;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            z-index: 10;
+        }
+        /* Music note animation */
+        .note {
+            position: absolute;
+            font-size: 1.4rem;
+            opacity: 0.75;
+            animation: notes 4s linear infinite;
+        }
+        @keyframes notes {
+            0% {bottom: 30px; left: 50%; opacity: 1;}
+            100% {bottom: 90vh; left: 53%; opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+    <div class="wish-card">
+        <h1>Happy Birthday Bby ❤️</h1>
+        <p>Wishing you all the happiness, love, and joy on your special day!<br>
+        May your life be as beautiful and bright as your smile.<br>
+        Have the happiest birthday ever!</p>
+        <div class="heart">❤️</div>
+    </div>
+    <!-- Emoji Sparkles Layer -->
+    <div id="sparkles"></div>
+    <!-- Music Notes Animation -->
+    <div class="note" style="animation-delay: 0s;">🎶</div>
+    <div class="note" style="animation-delay: 2s;">🎵</div>
+    <!-- Music -->
+    <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="playBtn">Tap to Play The Song 🎵</button>
+    <script>
+    // Sparkle/heart floating effect
+    const sparkles = document.getElementById('sparkles');
+    const emojis = ['❤️','💖','💓','💗','💞','💕','💘','🥰','😍','✨','🌟'];
+    function createSparkle(){
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        const size = Math.random() * 22 + 22;
+        sparkle.style.left = Math.random() * 98 + 'vw';
+        sparkle.style.top = '-4vh';
+        sparkle.style.fontSize = size + 'px';
+        sparkle.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+        sparkle.style.animationDuration = (2.8 + Math.random()*1.5) + 's';
+        sparkles.appendChild(sparkle);
+        setTimeout(()=>sparkle.remove(), 3500);
+    }
+    setInterval(createSparkle, 400);
+
+    // Background Music Autoplay/Fallback
+    const audio = document.getElementById('bgMusic');
+    const playBtn = document.getElementById('playBtn');
+
+    // Try to autoplay, if fails show button
+    function tryPlayMusic() {
+        audio.volume = 0.6;
+        audio.play().then(() => {
+            playBtn.style.display = 'none';
+        }).catch(() => {
+            playBtn.style.display = 'block';
+        });
+    }
+
+    // Try autoplay on page load
+    window.addEventListener('load', tryPlayMusic);
+
+    // Let user play music if not auto
+    playBtn.addEventListener('click', tryPlayMusic);
+    </script>
+</body>
+</html>
