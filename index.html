@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Bby ❤️</title>
+    <title>𝐇αρρ𝗒 𝐁𝗂𝗋𝗍ɦᑯα𝗒 𝐁ᑲ𝗒</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(120deg, #ffdde1 0%, #ee9ca7 100%);
@@ -17,7 +18,7 @@
             font-family: 'Segoe UI', 'Arial', sans-serif;
         }
         .wish-card {
-            background: rgba(255, 255, 255, 0.90);
+            background: rgba(255, 255, 255, 0.7); /* More transparent */
             border-radius: 24px;
             box-shadow: 0 6px 24px rgba(0,0,0,0.15);
             padding: 40px 32px;
@@ -28,33 +29,22 @@
             animation: fadein 1.2s;
         }
         .wish-card h1 {
-            font-size: 2.5rem;
+            font-size: 2.1rem;
             margin-bottom: 10px;
             color: #e75480;
+            font-family: 'Courgette', cursive, sans-serif;
+            letter-spacing: 1px;
+            font-weight: normal;
         }
         .wish-card p {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: #432c23;
             margin-top: 0;
         }
         .heart {
-            color: #e75480;
-            font-size: 3rem;
-            margin-top: 16px;
-            animation: heartbeat 1.3s infinite;
-            z-index: 3;
-            position: relative;
+            display: none; /* Hide the upper heart */
         }
-        @keyframes fadein {
-            0% { opacity: 0; transform: translateY(32px);}
-            100% { opacity: 1; transform: translateY(0);}
-        }
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1);}
-            35% { transform: scale(1.2);}
-            60% { transform: scale(0.9);}
-        }
-        /* Floating heart emoji sparkles */
+        #sparkles { pointer-events: none; }
         .sparkle {
             position: absolute;
             font-size: 2rem;
@@ -62,71 +52,70 @@
             animation: float 3.5s linear infinite;
         }
         @keyframes float {
-            0% {
-                opacity: 1;
-                transform: translateY(70vh) scale(0.8) rotate(0deg);
-            }
-            80% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-10vh) scale(1.4) rotate(20deg);
-            }
+            0% { opacity: 1; transform: translateY(70vh) scale(0.8) rotate(0deg);}
+            100% { opacity: 0; transform: translateY(-10vh) scale(1.4) rotate(20deg);}
         }
-        /* Play music button styles */
-        #playBtn {
-            display: none;
+        /* Music Overlay */
+        #musicOverlay {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            z-index: 1000;
+            inset: 0;
+            background: rgba(255, 220, 230, 0.97);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.5s;
+        }
+        #musicOverlay.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #musicOverlay button {
+            margin-top: 24px;
             background: #e75480;
             color: white;
             border: none;
             border-radius: 16px;
-            padding: 12px 32px;
-            font-size: 1.1rem;
+            padding: 14px 36px;
+            font-size: 1.15rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
             cursor: pointer;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-            z-index: 10;
         }
-        /* Music note animation */
-        .note {
-            position: absolute;
-            font-size: 1.4rem;
-            opacity: 0.75;
-            animation: notes 4s linear infinite;
-        }
-        @keyframes notes {
-            0% {bottom: 30px; left: 50%; opacity: 1;}
-            100% {bottom: 90vh; left: 53%; opacity: 0;}
+        #musicOverlay h2 {
+            color: #e75480;
+            font-family: 'Courgette', cursive;
+            font-size: 2rem;
+            margin-bottom: 12px;
         }
     </style>
 </head>
 <body>
-    <div class="wish-card">
-        <h1>Happy Birthday Bby ❤️</h1>
-        <p>Wishing you all the happiness, love, and joy on your special day!<br>
-        May your life be as beautiful and bright as your smile.<br>
-        Have the happiest birthday ever!</p>
-        <div class="heart">❤️</div>
+    <!-- Music Overlay Page -->
+    <div id="musicOverlay">
+        <h2>🎶 Tap to Play the Song 🎶</h2>
+        <div>Tap below to start music and reveal birthday wish</div>
+        <button onclick="startSite()">Play Music & Continue</button>
     </div>
-    <!-- Emoji Sparkles Layer -->
+    <div class="wish-card" style="display:none">
+        <h1>𝐇αρρ𝗒 𝐁𝗂𝗋𝗍ɦᑯα𝗒 𝐁ᑲ𝗒</h1>
+        <!-- Upper heart removed -->
+        <p>Wishing you all the happiness, love, and joy on your special day!<br>
+            May your life be as beautiful and bright as your smile.<br>
+            Have the happiest birthday ever!</p>
+        <div class="heart">❤️</div>
+        <!-- Lower heart (optional) add a heart here if you want -->
+    </div>
     <div id="sparkles"></div>
-    <!-- Music Notes Animation -->
-    <div class="note" style="animation-delay: 0s;">🎶</div>
-    <div class="note" style="animation-delay: 2s;">🎵</div>
-    <!-- Music -->
     <audio id="bgMusic" loop>
         <source src="song.mp3" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
-    <button id="playBtn">Tap to Play The Song 🎵</button>
     <script>
-    // Sparkle/heart floating effect
+    // Sparkle Animation
     const sparkles = document.getElementById('sparkles');
-    const emojis = ['❤️','💖','💓','💗','💞','💕','💘','🥰','😍','✨','🌟'];
+    const emojis = ['💖','💓','💗','💞','💕','💘'];
     function createSparkle(){
         const sparkle = document.createElement('div');
         sparkle.className = 'sparkle';
@@ -141,25 +130,23 @@
     }
     setInterval(createSparkle, 400);
 
-    // Background Music Autoplay/Fallback
-    const audio = document.getElementById('bgMusic');
-    const playBtn = document.getElementById('playBtn');
-
-    // Try to autoplay, if fails show button
-    function tryPlayMusic() {
+    // Music Overlay Logic
+    function startSite(){
+        document.getElementById('musicOverlay').classList.add('hide');
+        setTimeout(()=>{
+            document.getElementById('musicOverlay').style.display = 'none';
+            document.querySelector('.wish-card').style.display = 'block';
+        }, 500);
+        // Attempt to play music
+        const audio = document.getElementById('bgMusic');
         audio.volume = 0.6;
-        audio.play().then(() => {
-            playBtn.style.display = 'none';
-        }).catch(() => {
-            playBtn.style.display = 'block';
-        });
+        audio.play();
     }
 
-    // Try autoplay on page load
-    window.addEventListener('load', tryPlayMusic);
-
-    // Let user play music if not auto
-    playBtn.addEventListener('click', tryPlayMusic);
+    // Optional: Prevent scrolling
+    window.onload = function(){
+        document.body.style.overflow = 'hidden';
+    }
     </script>
 </body>
 </html>
